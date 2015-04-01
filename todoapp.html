@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html ng-app="todo"> 
+
+<head>
+      <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="bower_components/angular/angular.js"></script>
+
+	<style>
+    	.done{text-decoration: line-through; color: #a9a9a9;}
+	</style>  
+</head>
+
+<body>
+    <div ng-controller="todoController">
+        <h2> Simple ToDo App </h2>
+        <P>To add new todo item <br /> - please add item in the below text box and click 'submit' button</P>
+        <form name="frm" ng-submit="addTodo()">
+            <input type="text" name="newTodo" ng-model="newTodo" required />
+            <button ng-disabled="frm.$invalid">Submit</button>
+        </form>
+        <p>To clear completed todo items <br /> - enable checkbox and click on 'Clear Completed Items' button </p>
+        <button ng-click="clearTodo()">Clear Compeleted Items</button>
+        <h4> ToDo List </h4>
+          <div ng-repeat="todo in todos">
+              <ul>
+              	<li>
+                  <input type=checkbox ng-model="todo.done" />
+                  <span ng-class="{done:todo.done}"> {{ todo.title }} 
+                  </span>
+              	</li>
+              </ul>
+          </div>
+      </div>    
+  </body> 
+
+<script type="text/javascript">
+// create new module and controller
+angular.module('todo',[])
+             .controller('todoController', function( $scope ) {
+//array to hold todo items
+        $scope.todos = [
+            {title:'create todo app', done:false}
+            ];
+//function to add new todo item                 
+        $scope.addTodo = function() {
+        	$scope.todos.push({'title':$scope.newTodo, 'done':false})
+                 	}
+//function to clear completed items from todo list
+        $scope.clearTodo = function() {
+            $scope.todos = $scope.todos.filter(function(item) {
+                return !item.done
+                     })}
+	});
+</script>
+</html>
